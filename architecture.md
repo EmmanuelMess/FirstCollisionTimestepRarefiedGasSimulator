@@ -21,32 +21,32 @@ intersections), and is very precise, not losing precision to particles teleporti
          /-----------------/
                ΔT * v0
 
-a: Particle position at start of timestep
-b: Particle position at end of timestep
-Δd: Particle radius
-ΔT: maximum time step
-v0: fixed particle velocity
-p1 p3: Particle boundary during timestep
-p2 p4: Particle boundary during timestep
-a b: Particle path (only used for perpendiculars)
+a: Particle position at start of timestep  
+b: Particle position at end of timestep  
+Δd: Particle radius  
+ΔT: maximum time step   
+v0: fixed particle velocity  
+p1 p3: Particle boundary during timestep  
+p2 p4: Particle boundary during timestep  
+a b: Particle path (only used for perpendiculars)  
 
 ## Collision calculation
 
 ### Between particles
 
-Points ≈ $A$, $B$
-Velocities ≈ $A_v$, $B_v$
-Collsion time ≈ $t_I$
-Radius of particle ≈ $\Delta d$
-Distance between particles ≈ $d(X, Y)$
+Points ≈ $A$, $B$  
+Velocities ≈ $A_v$, $B_v$  
+Collsion time ≈ $t_I$  
+Radius of particle ≈ $\Delta d$  
+Distance between particles ≈ $d(X, Y)$  
 
-$A = (A_x, A_y)$
-$B = (B_x, B_y)$
-$Av = (A_{vx}, A_{vy})$
-$Bv = (B_{vx}, B_{vy})$
+$A = (A_x, A_y)$   
+$B = (B_x, B_y)$  
+$Av = (A_{vx}, A_{vy})$  
+$Bv = (B_{vx}, B_{vy})$  
 
 $d(A + A_v t_I, B + B_v t_I) = 2 \Delta d$  
-$d(A + A_v t_I, B + B_v t_I) = \sqrt{(A_x - B_x)^2 + (A_y - B_y)^2}$
+$d(A + A_v t_I, B + B_v t_I) = \sqrt{(A_x - B_x)^2 + (A_y - B_y)^2}$  
 
 Then:
 
@@ -54,10 +54,10 @@ $d(A + A_v t, B + B_v t) = [(A_{vx} - B_{vx})^2 + (A_{vy} - B_{xy})^2] t^2 + 2 [
 
 Then:
 
-$ a = (A_{vx} - B_{vx})^2 + (A_{vy} - B_{xy})^2 $
-$ b = 2 [(A_x - B_x)(A_{vx} - B_{vx}) + (A_y - B_y)(A_{vy} - B_{vy})] $
-$ c = (A_x - B_x)^2 + (A_y - B_y)^2 - (2 \Delta d)^2 $
-$ d = b^2 + 4 a c$
+$a = (A_{vx} - B_{vx})^2 + (A_{vy} - B_{xy})^2$  
+$b = 2 [(A_x - B_x)(A_{vx} - B_{vx}) + (A_y - B_y)(A_{vy} - B_{vy})]$  
+$c = (A_x - B_x)^2 + (A_y - B_y)^2 - (2 \Delta d)^2$  
+$d = b^2 + 4 a c$  
 
 And we use:
 
@@ -65,20 +65,20 @@ $$ t_1 = \frac{-b - \sqrt{d}}{2 a} $$
 
 #### Failure cases
 
-* $d < 0$: No intersect
-* $b > -1e-6$: Glancing
-* $b >= 0$: Getting farther
-* $t0 < 0$ and $t1 > 0$ and $b <= -1e-6$: No intersect
+* $d < 0$: No intersect  
+* $b > -1e-6$: Glancing  
+* $b >= 0$: Getting farther  
+* $t0 < 0$ and $t1 > 0$ and $b <= -1e-6$: No intersect  
 
 ### Between particle and boundary
 
-Point ≈ $A$
-Position (this is the same axis as wall, x for side collision, y for top/bottom) ≈ $A_p$
-Velocity (this is the same axis as wall, x for side collision, y for top/bottom) ≈ $A_v$
-Collision time ≈ $t_I$
-Radius of particle ≈ $\Delta d$
-Wall position (this is the X coordinate for the sides, and Y coordinate for top/bottom) ≈ $wall$
-Distance between particle and wall ≈ $d(X)$
+Point ≈ $A$  
+Position (this is the same axis as wall, x for side collision, y for top/bottom) ≈ $A_p$  
+Velocity (this is the same axis as wall, x for side collision, y for top/bottom) ≈ $A_v$  
+Collision time ≈ $t_I$  
+Radius of particle ≈ $\Delta d$   
+Wall position (this is the X coordinate for the sides, and Y coordinate for top/bottom) ≈ $wall$   
+Distance between particle and wall ≈ $d(X)$  
 
 $d(A + A_v t_I, wall) = \Delta d$  
 $d(A + A_v t_I, wall) = \sqrt{(A_p + A_v t_I - wall)^2}$
@@ -89,10 +89,10 @@ $d(A + A_v t_I, wall) = (A_p - wall)^2 - (\Delta d)^2 + 2 (A_p - wall) A_v + A_v
 
 Then:
 
-$a = A_v^2$
-$b = 2 (A_p - wall) A_v$
-$c = (A_p - wall)^2 - (\Delta d)^2 = (A_p - wall + \Delta d) (A_p - wall - \Delta d)$
-$d = b^2 - 4 a c$
+$a = A_v^2$  
+$b = 2 (A_p - wall) A_v$  
+$c = (A_p - wall)^2 - (\Delta d)^2 = (A_p - wall + \Delta d) (A_p - wall - \Delta d)$  
+$d = b^2 - 4 a c$  
 
 And we use:
 
@@ -100,9 +100,9 @@ $$ t_1 = \frac{-b - \sqrt{d}}{2 a} $$
 
 #### Failure cases
 
-* $d < 0$: No intersect
-* $b > -1e-6$: Glancing
-* $b >= 0$: Getting farther
+* $d < 0$: No intersect  
+* $b > -1e-6$: Glancing  
+* $b >= 0$: Getting farther  
 * $t0 < 0$ and $t1 > 0$ and $b <= -1e-6$: No intersect
 
 ## Communicating Sequential Processes model
@@ -115,24 +115,24 @@ Move particles and cleanup sim ≈ advanceSimulation
 amount of particles ≈ PARTICLES
 
 #### CSP
-CUDA = (||^(PARTICLES * PARTICLES)_i=1 i: i.computeIntersectionTime) -> (||^(PARTICLES)_i=1 i: i.calculateIntersectionBorderTime) 
-          -> (||^(1)_i=1 i: i.minimum) -> advanceSimulation
-SIMULATION = CUDA -> SIMULATION
+CUDA = (||^(PARTICLES * PARTICLES)_i=1 i: i.computeIntersectionTime) -> (||^(PARTICLES)_i=1 i: i.calculateIntersectionBorderTime)  
+          -> (||^(1)_i=1 i: i.minimum) -> advanceSimulation  
+SIMULATION = CUDA -> SIMULATION  
 
-DEVICE = CUDA -> DEVICE
-HOST = allocation -> initialization -> checkDistances -> optimization -> SIMULATION
-SYSTEM = HOST || DEVICE
+DEVICE = CUDA -> DEVICE  
+HOST = allocation -> initialization -> checkDistances -> optimization -> SIMULATION  
+SYSTEM = HOST || DEVICE  
 
 ## Implementation details
 
 
 ### Saving collision time data
 
-Particle A ≈ i
-Particle B ≈ j
-Collision time between A and a wall ≈ a
-Collision time between A and B ≈ b
-Data isn't saved because it would be duplicated ≈ x
+Particle A ≈ i  
+Particle B ≈ j  
+Collision time between A and a wall ≈ a  
+Collision time between A and B ≈ b  
+Data isn't saved because it would be duplicated ≈ x  
 
                     i
           | 0 | 1 | 2 | 3 | 4 | 5 | 
