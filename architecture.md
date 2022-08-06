@@ -1,9 +1,8 @@
 # Simple Explanation
 
-This simulator computes all possible intersections for a very small timestep (called ΔT), then checks which of those
-possible intersections is soonest to occur, and checks if it is a real intersection that will happen, if it will,
-the simulator runs for Δt time, which is enough for that collision to occur. Once the intersection occurs, the whole
-process runs again.
+This simulator computes all possible intersections, then checks which of those possible intersections is soonest to
+occur, and checks if it is a real intersection that will happen, if it will, the simulator runs for Δt time, which
+is enough for that collision to occur. Once the intersection occurs, the whole process runs again.
 The idea is that CUDA allows this to occur very fast, by computing a lot of data in parallel (all segments and
 intersections), and is very precise, not losing precision to particles teleporting.
 
@@ -104,6 +103,46 @@ $$ t_1 = \frac{-b - \sqrt{d}}{2 a} $$
 * $b > -1e-6$: Glancing  
 * $b >= 0$: Getting farther  
 * $t0 < 0$ and $t1 > 0$ and $b <= -1e-6$: No intersect
+
+
+## Position calculation
+
+Particle A position before ≈ $(x, y)$  
+Particle A position after ≈ $(x', y')$  
+Particle A velocity ≈ $(v_x, v_y)$  
+timestep ≈ $\Delta t$  
+
+$$(x', y') = (x + v_x \Delta t, y + v_y \Delta t)$$
+
+## Velocity calculation
+
+Velocity is only updated for colliding particles as there is no acceleration.
+
+### Collision against wall
+Particle position ≈ $(x, y)$  
+Particle velocity before ≈ $(v_x, v_y)$  
+Particle velocity after ≈ $({v'}_x, {v'}_y)$  
+
+#### Vertical wall
+
+$$({v'}_x, {v'}_y) = (-v_x, v_y)$$  
+
+#### Horizontal wall
+
+$$({v'}_x, {v'}_y) = (v_x, -v_y)$$  
+
+### Collision particle
+
+Particle A position ≈ $(A_x, A_y)$  
+Particle A velocity before ≈ $(A_{vx}, A_{vy})$  
+Particle A velocity after ≈ $(A'_{vx}, A'_{vy})$  
+Particle B position ≈ $(B_x, B_y)$  
+Particle B velocity before ≈ $(B_{vx}, B_{vy})$  
+Particle B velocity after ≈ $(B'_{vx}, B'_{vy})$  
+
+
+$$({A'}_{vx}, {A'}_{vy}) = \frac{(B_{vx}, B_{vy})}{||(B_{vx}, B_{vy})||} * ||(A_{vx}, A_{vy})|| $$  
+$$({B'}_{vx}, {B'}_{vy}) = \frac{(A_{vx}, A_{vy})}{||(A_{vx}, A_{vy})||} * ||(B_{vx}, B_{vy})|| $$  
 
 ## Communicating Sequential Processes model
 
