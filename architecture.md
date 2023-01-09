@@ -147,11 +147,11 @@ $$({B'}_{vx}, {B'}_{vy}) = \frac{(A_{vx}, A_{vy})}{||(A_{vx}, A_{vy})||} * ||(B_
 ## Communicating Sequential Processes model
 
 #### Designations
-all calls to cudaAlloc ≈ allocation
-graph optimization ≈ optimization
-setting particle position, initial velocities in device global memory ≈ initialization
-Move particles and cleanup sim ≈ advanceSimulation
-amount of particles ≈ PARTICLES
+all calls to cudaAlloc ≈ allocation  
+graph optimization ≈ optimization  
+setting particle position, initial velocities in device global memory ≈ initialization  
+Move particles and cleanup sim ≈ advanceSimulation  
+amount of particles ≈ PARTICLES  
 
 #### CSP
 CUDA = (||^(PARTICLES * PARTICLES)_i=1 i: i.computeIntersectionTime) -> (||^(PARTICLES)_i=1 i: i.calculateIntersectionBorderTime)  
@@ -174,11 +174,11 @@ Collision time between A and B ≈ b
 Data isn't saved because it would be duplicated ≈ x  
 
                     i
-          | 0 | 1 | 2 | 3 | 4 | 5 | 
-      | 0 | a | b | b | b | b | b |
-      | 1 | x | a | b | b | b | b |
-    j | 2 | x | x | a | b | b | b |
-      | 3 | x | x | x | a | b | b |
-      | 4 | x | x | x | x | a | b |
-      | 5 | x | x | x | x | x | a |
+            0   1   2   3   4   5  
+        0   a | b | b | b | b | b |
+        1   x | a | b | b | b | b |
+    j   2   x | x | a | b | b | b |
+        3   x | x | x | a | b | b |
+        4   x | x | x | x | a | b |
+        5   x | x | x | x | x | a |
    
