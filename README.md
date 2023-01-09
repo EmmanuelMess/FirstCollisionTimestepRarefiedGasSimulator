@@ -1,9 +1,11 @@
-# First collision timestep rarefied gas simulator
+# First-collision timestep rarefied gas simulator
 This simulator computes all possible intersections, then checks which of those possible intersections is soonest to
-occur, and checks if it is a real intersection that will happen, if it will, the simulator runs for Δt time, which
-is enough for that collision to occur. Once the intersection occurs, the whole process runs again.
-The idea is that CUDA allows this to occur very fast, by computing a lot of data in parallel (all segments and
-intersections), and is very precise, not losing precision to particles teleporting.
+occur, and does some checks, the simulator then runs for time for enough time for the collision to occur. Once the 
+intersection occurs, the whole process runs again.
+
+The idea is that CUDA allows this to go very fast, by computing a lot of data in parallel (all segments and
+intersections), this method of simulation is very presice as intesections are computed analitically, not 
+in steps.
 
 ## Architecture
 
